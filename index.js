@@ -8,7 +8,11 @@ app.get('/hello', (req, res) => {
     message: 'Hello World from RapidAPI!'
   });
 });
-
+app.get('/bye', (req, res) => {
+  res.json({
+    message: 'FuCk ofF!'
+  });
+});
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
