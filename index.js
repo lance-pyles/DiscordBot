@@ -3,9 +3,10 @@ const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.get('/hello', (req, res) => {
+app.get('/hello/:id', (req, res) => {
+  messageText = 'Hello world from ' + req.params.id;
   res.json({
-    message: 'Hello World from RapidAPI2!'
+    message: messageText
   });
 });
 app.get('/bye', (req, res) => {
