@@ -5,7 +5,7 @@ const PORT = process.env.PORT || 3000;
 
 app.get('/hello', (req, res) => {
   res.json({
-    message: 'Hello World from RapidAPI!'
+    message: 'Hello World from RapidAPI2!'
   });
 });
 app.get('/bye', (req, res) => {
