@@ -1,14 +1,11 @@
-const app = express();
-const PORT = process.env.PORT || 3000;
+const express = require('express');
 
-const csv = [...items]
-  .map(li => `"${li.textContent.trim().replace(/"/g, '""')}"`)
-  .join("\n");
+const PORT = process.env.PORT || 3000;
 
 app.get('/hello/:id', (req, res) => {
     messageText = 'Hello world from ' + req.params.id;
     res.json({
-        message: csv
+        message: messageText
     });
 });
 
