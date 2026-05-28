@@ -27,7 +27,7 @@ app.get('/hello/:id', (req, res) => {
     });
 });
 
-app.get('/bye', (req, res) => {
+app.get('/goodbye', (req, res) => {
     res.json({
         message: 'FuCk ofF!'
     });
