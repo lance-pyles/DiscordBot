@@ -6,7 +6,7 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json()); 
 
 // For parsing application/x-www-form-urlencoded (standard HTML forms)
-app.use(express.urlencoded({ extended: true })); 
+app.use(express.text({ extended: true })); 
 
 app.get('/hello/:id', (req, res) => {
     messageText = req.body + ' Hello world from ' + req.params.id;
