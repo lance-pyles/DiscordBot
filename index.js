@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.use(express.json());
+
 app.get('/hello/:id', (req, res) => {
     messageText = req.body + ' Hello world from ' + req.params.id;
     res.json({
