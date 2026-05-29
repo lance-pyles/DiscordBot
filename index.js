@@ -1,26 +1,47 @@
-const express = require('express');
+import express from "express";
+import { chromium } from "playwright";
+
 const app = express();
-const PORT = process.env.PORT || 3000;
+app.use(express.json());
 
-// For parsing application/json
-app.use(express.json()); 
+app.post("/screenshot", async (req, res) => {
+  const { url } = req.body;
 
-// For parsing application/x-www-form-urlencoded (standard HTML forms)
-app.use(express.text({ extended: true })); 
+  if (!url) {
+    return res.status(400).json({ error: "Missing url" });
+  }
 
-app.get('/hello/:id', (req, res) => {
-    messageText = req.body + ' Hello world from ' + req.params.id;
-    res.json({
-        message: messageText
+  let browser;
+
+  try {
+    browser = await chromium.launch({
+      headless: true
     });
+
+    const page = await browser.newPage();
+
+    await page.goto(url, {
+      waitUntil: "networkidle",
+      timeout: 30000
+    });
+
+    const screenshotBuffer = await page.screenshot({
+      fullPage: true,
+      type: "png"
+    });
+
+    res.setHeader("Content-Type", "image/png");
+    res.send(screenshotBuffer);
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to capture screenshot" });
+
+  } finally {
+    if (browser) await browser.close();
+  }
 });
 
-app.get('/goodbye', (req, res) => {
-    res.json({
-        message: 'FuCk ofF!'
-    });
-});
-
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+app.listen(3000, () => {
+  console.log("Screenshot API running on port 3000");
 });
