@@ -3,7 +3,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.get('/hello/:id', (req, res) => {
-    messageText = 'Hello world from ' + req.params.id;
+    messageText = req.body + ' Hello world from ' + req.params.id;
     res.json({
         message: messageText
     });
