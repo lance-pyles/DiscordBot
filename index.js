@@ -2,6 +2,7 @@ import express from "express";
 import { chromium } from "playwright";
 
 const app = express();
+
 app.use(express.json());
 
 app.post("/screenshot", async (req, res) => {
