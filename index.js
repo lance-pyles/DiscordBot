@@ -5,7 +5,7 @@ const app = express();
 
 app.use(express.json());
 
-app.post("/screenshot", async (req, res) => {
+app.post("/webscreenshot", async (req, res) => {
   const { url } = req.body;
 
   if (!url) {
