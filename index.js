@@ -36,7 +36,7 @@ app.post("/webscreenshot", async (req, res) => {
 
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Failed to capture screenshot" });
+    res.status(500).json({ error: "Failed to capture screenshot", message: err.message });
 
   } finally {
     if (browser) await browser.close();
