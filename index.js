@@ -33,4 +33,4 @@ client.on('messageCreate', (message) => {
 });
 
 // Replace with your bot token
-client.login('MTUxMTU2NTk5MTY1NjgxNjY3MA.G2EaBd.i04GvXVU6190ENrUmtDl0cI-EpYmiEAOnm04SY');
+client.login('');
