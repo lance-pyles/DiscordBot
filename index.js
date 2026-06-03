@@ -1,17 +1,30 @@
-const express = require('express');
+require('dotenv').config();
+const { Client, GatewayIntentBits } = require('discord.js');
 
-const app = express();
-
-// Parse JSON request bodies
-app.use(express.json());
-
-app.get("/test", async (req, res) => {
-
-  const name = req.query.name ?? req.body.name;
-  const lname = req.query.lname ?? req.body.lname;
-  
-  res.json({message: 'Hello, ' + name + ' ' + lname + '!'});
-
+// Initialize the client with specific gateway intents
+const client = new Client({
+    intents: [
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.MessageContent
+    ]
 });
 
-app.listen(3000, () => { console.log("Screenshot API running on port 3000"); });
+// Run this logic once when the bot successfully logs in
+client.once('ready', () => {
+    console.log(`Logged in as ${client.user.tag}!`);
+});
+
+// Listen for incoming chat messages
+client.on('messageCreate', (message) => {
+    // Ignore messages sent by bots to avoid loops
+    if (message.author.bot) return;
+
+    // Simple reply logic
+    if (message.content.toLowerCase() === 'ping') {
+        message.reply('Pong!');
+    }
+});
+
+// Authenticate and log in the bot using the token
+client.login(process.env.DISCORD_TOKEN);
