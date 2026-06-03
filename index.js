@@ -5,6 +5,8 @@ require('dotenv').config();
 // 1. Initialize Discord Bot
 const client = new Client({
     intents: [
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMessages,
         GatewayIntentBits.MessageContent
     ]
 });
@@ -15,7 +17,7 @@ client.on('ready', () => {
 
 client.on('messageCreate', msg => {
     if (msg.content.toLowerCase() === '!ping') {
-        msg.reply('Pong!');
+        msg.reply('Pong! 🏓');
     }
 });
 
