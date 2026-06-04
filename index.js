@@ -29,7 +29,7 @@ client.on('ready', () => {
 
 client.on('messageCreate', msg => {
     if (msg.content.toLowerCase() === '!ping') { msg.reply('Pong! 🏓'); }
-    if (msg.content.toLowerCase() === '!goldprice') { msg.reply(getGoldSPot()); }
+    if (msg.content.toLowerCase() === '!goldprice') { msg.reply(getGoldSpot()); }
 });
 
 client.login(process.env.DISCORD_TOKEN);
@@ -40,7 +40,7 @@ const PORT = process.env.PORT || 3000;
 
 app.get('/', (req, res) => { res.send('Discord bot is alive and running!'); });
 app.get('/ping', (req, res) => { res.send('Pong! 🏓'); });
-app.get('/goldprice', (req, res) => { res.send(getGoldSPot()); });
+app.get('/goldprice', (req, res) => { res.send(getGoldSpot()); });
 
 app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);
