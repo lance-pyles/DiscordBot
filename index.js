@@ -78,7 +78,7 @@ app.get('/ping', (req, res) => {
 app.get('/goldprice', async (req, res) => {
   try {
     const price = await getGoldSpot();
-    res.json({ `Gold price: $${price}/toz` });
+    res.json({ 'Gold price': `$${price}/toz` });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Failed to fetch gold price' });
