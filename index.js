@@ -4,15 +4,19 @@ require('dotenv').config();
 
 const API_KEY = process.env.GOLD_API_KEY;
 
-function getGoldSpot() {
-  const response = fetch('https://api.metals.dev/v1/metal/spot?api_key=${API_KEY}&metal=gold&currency=USD');
+async function getGoldSpot() {
+  const response = await fetch(
+    `https://api.metals.dev/v1/metal/spot?api_key=${API_KEY}&metal=gold&currency=USD`
+  );
 
-  const data = response.json();
-
+  const data = await response.json();
   return data.rate.price;
 }
 
-
+async function showPrice() {
+  const price = await getGoldSpot();
+  return price;
+}
 
 // 1. Initialize Discord Bot
 const client = new Client({
@@ -29,7 +33,7 @@ client.on('ready', () => {
 
 client.on('messageCreate', msg => {
     if (msg.content.toLowerCase() === '!ping') { msg.reply('Pong! 🏓'); }
-    if (msg.content.toLowerCase() === '!goldprice') { msg.reply(getGoldSpot()); }
+    if (msg.content.toLowerCase() === '!goldprice') { msg.reply(ShowPrice()); }
 });
 
 client.login(process.env.DISCORD_TOKEN);
@@ -40,7 +44,7 @@ const PORT = process.env.PORT || 3000;
 
 app.get('/', (req, res) => { res.send('Discord bot is alive and running!'); });
 app.get('/ping', (req, res) => { res.send('Pong! 🏓'); });
-app.get('/goldprice', (req, res) => { res.send(getGoldSpot()); });
+app.get('/goldprice', (req, res) => { res.send(ShowPrice()); });
 
 app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);
