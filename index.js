@@ -5,9 +5,7 @@ require('dotenv').config();
 const API_KEY = process.env.GOLD_API_KEY;
 
 function getGoldSpot() {
-  const response = await fetch(
-    `https://api.metals.dev/v1/metal/spot?api_key=${API_KEY}&metal=gold&currency=USD`
-  );
+  const response = fetch('https://api.metals.dev/v1/metal/spot?api_key=${API_KEY}&metal=gold&currency=USD');
 
   const data = await response.json();
 
