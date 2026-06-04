@@ -48,10 +48,10 @@ client.on('messageCreate', async (message) => {
     return message.reply('Pong! 🏓');
   }
 
-  if (content === '!gold') {
+  if (content === '!goldprice') {
     try {
       const price = await getGoldSpot();
-      return message.channel.send(`Gold price: $${price}`);
+      return message.channel.send(`Gold price: $${price}/toz`);
     } catch (err) {
       console.error(err);
       return message.channel.send('Failed to fetch gold price.');
@@ -78,7 +78,7 @@ app.get('/ping', (req, res) => {
 app.get('/goldprice', async (req, res) => {
   try {
     const price = await getGoldSpot();
-    res.json({ price });
+    res.json({ `Gold price: $${price}/toz` });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Failed to fetch gold price' });
