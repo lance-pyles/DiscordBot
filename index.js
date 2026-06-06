@@ -34,7 +34,7 @@ function generatePassword(length, allowNumbers, allowLetters) {
         const randomIndex = Math.floor(Math.random() * charset.length);
         password += charset[randomIndex];
     }
-    combinations = len(charset) ^ length
+    combinations = charset.length ^ length
     return {
         success: true,
         password: password,
