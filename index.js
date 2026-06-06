@@ -39,7 +39,10 @@ function generatePassword(length, allowNumbers, allowLetters) {
         success: true,
         password: password,
         combinations: combinations,
-        charset: charset
+        charset: charset,
+        allowLetters: allowLetters,
+        allowNumbers: allowNUmbers,
+        length: length
     };
 }
 
