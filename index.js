@@ -113,7 +113,7 @@ app.get('/ping', (req, res) => {
 });
 
 app.get('/generate-password', (req, res) => {
-    const length = parseInt(req.query.length, 10) || 12;
+    const length = req.query.length ?? req.body.length;
     const allowNumbers = req.query.allowNumbers ?? req.body.allowNumbers === 'true';
     const allowLetters = req.query.allowLetters ?? req.body.allowLetters === 'true';
 
