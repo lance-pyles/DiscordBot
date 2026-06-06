@@ -38,7 +38,8 @@ function generatePassword(length, allowNumbers, allowLetters) {
     return {
         success: true,
         password: password,
-        combinations: combinations
+        combinations: combinations,
+        charset: charset
     };
 }
 
