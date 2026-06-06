@@ -1,8 +1,12 @@
 const { Client, GatewayIntentBits } = require('discord.js');
-const express = require('express');
+
 require('dotenv').config();
-app.use(express.json());
+
 // NOTE: In Node 18+, fetch is global. If you're on older Node, you'd need node-fetch.
+
+const express = require('express');
+const app = express();
+app.use(express.json());
 
 const API_KEY = process.env.GOLD_API_KEY;
 
