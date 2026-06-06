@@ -1,10 +1,42 @@
 const { Client, GatewayIntentBits } = require('discord.js');
 const express = require('express');
 require('dotenv').config();
-
+app.use(express.json());
 // NOTE: In Node 18+, fetch is global. If you're on older Node, you'd need node-fetch.
 
 const API_KEY = process.env.GOLD_API_KEY;
+
+function generatePassword(length, allowNumbers, allowLetters) {
+    let charset = '';
+
+    if (allowLetters) {
+        charset += 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    }
+
+    if (allowNumbers) {
+        charset += '0123456789';
+    }
+
+    if (!charset.length) {
+        return {
+            success: false,
+            error: 'At least one character type must be enabled.'
+        };
+    }
+
+    let password = '';
+
+    for (let i = 0; i < length; i++) {
+        const randomIndex = Math.floor(Math.random() * charset.length);
+        password += charset[randomIndex];
+    }
+    combinations = len(charset) ^ length
+    return {
+        success: true,
+        password: password,
+        combinations: combinations
+    };
+}
 
 // --------------------
 // Gold price function
@@ -73,6 +105,20 @@ app.get('/', (req, res) => {
 
 app.get('/ping', (req, res) => {
   res.send('Pong! 🏓');
+});
+
+app.get('/generate-password', (req, res) => {
+    const length = parseInt(req.query.length, 10) || 12;
+    const allowNumbers = req.query.allowNumbers ?? req.body.allowNumbers === 'true';
+    const allowLetters = req.query.allowLetters ?? req.body.allowLetters === 'true';
+
+    const result = generatePassword(
+        length,
+        allowNumbers,
+        allowLetters
+    );
+
+    res.json(result);
 });
 
 app.get('/goldprice', async (req, res) => {
