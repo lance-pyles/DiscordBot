@@ -41,7 +41,7 @@ function generatePassword(length, allowNumbers, allowLetters) {
         combinations: combinations,
         charset: charset,
         allowLetters: allowLetters,
-        allowNumbers: allowNUmbers,
+        allowNumbers: allowNumbers,
         length: length
     };
 }
