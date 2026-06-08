@@ -115,10 +115,24 @@ app.get('/ping', (req, res) => {
   res.send('Pong! 🏓');
 });
 
+app.post('/generate-password', (req, res) => {
+    const length = req.body.length;
+    const allowNumbers = req.body.allowNumbers === 'true';
+    const allowLetters = req.body.allowLetters === 'true';
+
+    const result = generatePassword(
+        length,
+        allowNumbers,
+        allowLetters
+    );
+
+    res.json(result);
+});
+      
 app.get('/generate-password', (req, res) => {
-    const length = req.query.length ?? req.body.length;
-    const allowNumbers = (req.query.allowNumbers ?? req.body.allowNumbers) === 'true';
-    const allowLetters = (req.query.allowLetters ?? req.body.allowLetters) === 'true';
+    const length = req.query.length;
+    const allowNumbers = req.query.allowNumbers === 'true';
+    const allowLetters = req.query.allowLetters === 'true';
 
     const result = generatePassword(
         length,
