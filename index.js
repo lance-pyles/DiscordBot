@@ -117,8 +117,8 @@ app.get('/ping', (req, res) => {
 
 app.post('/generate-password', (req, res) => {
     const length = req.body.length;
-    const allowNumbers = req.body.allowNumbers === 'true';
-    const allowLetters = req.body.allowLetters === 'true';
+    const allowNumbers = req.body.allowNumbers;
+    const allowLetters = req.body.allowLetters;
 
     const result = generatePassword(
         length,
