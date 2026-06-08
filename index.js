@@ -40,6 +40,7 @@ function generatePassword(length, allowNumbers, allowLetters) {
         password: password,
         combinations: combinations,
         charset: charset,
+        possibleCharacters: charset.length
         allowLetters: allowLetters,
         allowNumbers: allowNumbers,
         length: length
