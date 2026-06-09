@@ -10,7 +10,7 @@ app.use(express.json());
 
 const API_KEY = process.env.GOLD_API_KEY;
 
-function generatePassword(length, allowNumbers, allowLetters) {
+function generatePassword(length, allowNumbers, allowLetters, specialCharacters) {
     let charset = '';
 
     if (allowLetters) {
@@ -21,6 +21,11 @@ function generatePassword(length, allowNumbers, allowLetters) {
         charset += '0123456789';
     }
 
+    if (specialCharacters.length)
+    {
+        charset += specialCharacters;
+    }
+    
     if (!charset.length) {
         return {
             success: false,
@@ -43,7 +48,8 @@ function generatePassword(length, allowNumbers, allowLetters) {
         possibleCharacters: charset.length,
         allowLetters: allowLetters,
         allowNumbers: allowNumbers,
-        length: length
+        length: length,
+        specialCharacters: specialCharacters
     };
 }
 
@@ -118,13 +124,14 @@ app.get('/ping', (req, res) => {
 
 app.post('/generate-password', (req, res) => {
     const length = req.body.length;
+    const specialCharacters = req.body.specialCharacters;
     const allowNumbers = req.body.allowNumbers;
     const allowLetters = req.body.allowLetters;
 
     const result = generatePassword(
         length,
         allowNumbers,
-        allowLetters
+        allowLetters,specialCharacters
     );
 
     res.json(result);
@@ -132,13 +139,14 @@ app.post('/generate-password', (req, res) => {
       
 app.get('/generate-password', (req, res) => {
     const length = req.query.length;
+    const specialCharacters = req.query.specialCharacters;
     const allowNumbers = req.query.allowNumbers === 'true';
     const allowLetters = req.query.allowLetters === 'true';
 
     const result = generatePassword(
         length,
         allowNumbers,
-        allowLetters
+        allowLetters,specialCharacters
     );
 
     res.json(result);
