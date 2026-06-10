@@ -1,62 +1,86 @@
-const { Client, GatewayIntentBits } = require('discord.js');
+import { Client, GatewayIntentBits, Message } from 'discord.js';
+import express, { Request, Response } from 'express';
+import dotenv from 'dotenv';
 
-require('dotenv').config();
+dotenv.config();
 
-// NOTE: In Node 18+, fetch is global. If you're on older Node, you'd need node-fetch.
-
-const express = require('express');
 const app = express();
 app.use(express.json());
 
 const API_KEY = process.env.GOLD_API_KEY;
+const PORT = Number(process.env.PORT) || 3000;
 
-function generatePassword(length, allowNumbers, allowLetters, specialCharacters) {
-    let charset = '';
-
-    if (allowLetters) {
-        charset += 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    }
-
-    if (allowNumbers) {
-        charset += '0123456789';
-    }
-
-    if (specialCharacters && specialCharacters.length > 0)
-    {
-        charset += specialCharacters;
-    }
-    
-    if (charset.length == 0) {
-        return {
-            success: false,
-            error: 'At least one character type must be enabled.'
-        };
-    }
-
-    let password = '';
-
-    for (let i = 0; i < length; i++) {
-        const randomIndex = Math.floor(Math.random() * charset.length);
-        password += charset[randomIndex];
-    }
-    let combinations = charset.length ** length
-    return {
-        success: true,
-        password: password,
-        combinations: combinations,
-        charset: charset,
-        possibleCharacters: charset.length,
-        allowLetters: allowLetters,
-        allowNumbers: allowNumbers,
-        length: length,
-        specialCharacters: specialCharacters ? specialCharacters : "undefined"
-    };
+interface PasswordResult {
+  success: boolean;
+  password?: string;
+  combinations?: number;
+  charset?: string;
+  possibleCharacters?: number;
+  allowLetters?: boolean;
+  allowNumbers?: boolean;
+  length?: number;
+  specialCharacters?: string;
+  error?: string;
 }
 
-// --------------------
-// Gold price function
-// --------------------
-async function getGoldSpot() {
+function generatePassword(
+  length: number,
+  allowNumbers: boolean,
+  allowLetters: boolean,
+  specialCharacters?: string
+): PasswordResult {
+  let charset = '';
+
+  if (allowLetters) {
+    charset += 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  }
+
+  if (allowNumbers) {
+    charset += '0123456789';
+  }
+
+  if (specialCharacters && specialCharacters.length > 0) {
+    charset += specialCharacters;
+  }
+
+  if (charset.length === 0) {
+    return {
+      success: false,
+      error: 'At least one character type must be enabled.'
+    };
+  }
+
+  let password = '';
+
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * charset.length);
+    password += charset[randomIndex];
+  }
+
+  return {
+    success: true,
+    password,
+    combinations: charset.length ** length,
+    charset,
+    possibleCharacters: charset.length,
+    allowLetters,
+    allowNumbers,
+    length,
+    specialCharacters: specialCharacters ?? 'undefined'
+  };
+}
+
+interface GoldApiResponse {
+  rate?: {
+    price?: number;
+  };
+}
+
+async function getGoldSpot(): Promise<number | undefined> {
+  if (!API_KEY) {
+    throw new Error('GOLD_API_KEY is not configured');
+  }
+
   const response = await fetch(
     `https://api.metals.dev/v1/metal/spot?api_key=${API_KEY}&metal=gold&currency=USD`
   );
@@ -65,14 +89,15 @@ async function getGoldSpot() {
     throw new Error(`API request failed: ${response.status}`);
   }
 
-  const data = await response.json();
+  const data = (await response.json()) as GoldApiResponse;
 
-  return data?.rate?.price;
+  return data.rate?.price;
 }
 
 // --------------------
-// Discord Bot Setup
+// Discord Bot
 // --------------------
+
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
@@ -81,27 +106,27 @@ const client = new Client({
   ]
 });
 
-client.on('ready', () => {
-  console.log(`Logged in as ${client.user.tag}!`);
+client.once('ready', () => {
+  console.log(`Logged in as ${client.user?.tag}`);
 });
 
-client.on('messageCreate', async (message) => {
-  // ignore bot messages
+client.on('messageCreate', async (message: Message) => {
   if (message.author.bot) return;
 
   const content = message.content.toLowerCase();
 
   if (content === '!ping') {
-    return message.reply('Pong! 🏓');
+    await message.reply('Pong! 🏓');
+    return;
   }
 
   if (content === '!goldprice') {
     try {
       const price = await getGoldSpot();
-      return message.channel.send(`Gold price: $${price}/toz`);
+      await message.channel.send(`Gold price: $${price}/toz`);
     } catch (err) {
       console.error(err);
-      return message.channel.send('Failed to fetch gold price.');
+      await message.channel.send('Failed to fetch gold price.');
     }
   }
 });
@@ -109,56 +134,54 @@ client.on('messageCreate', async (message) => {
 client.login(process.env.DISCORD_TOKEN);
 
 // --------------------
-// Express Server Setup
+// Express Routes
 // --------------------
-//const app = express();
-const PORT = process.env.PORT || 3000;
 
-app.get('/', (req, res) => {
+app.get('/', (_req: Request, res: Response) => {
   res.send('Discord bot is alive and running!');
 });
 
-app.get('/ping', (req, res) => {
+app.get('/ping', (_req: Request, res: Response) => {
   res.send('Pong! 🏓');
 });
 
-app.post('/generate-password', (req, res) => {
-    const length = req.body.length;
-    const specialCharacters = req.body.specialCharacters;
-    const allowNumbers = req.body.allowNumbers;
-    const allowLetters = req.body.allowLetters;
+app.post('/generate-password', (req: Request, res: Response) => {
+  const result = generatePassword(
+    Number(req.body.length),
+    Boolean(req.body.allowNumbers),
+    Boolean(req.body.allowLetters),
+    req.body.specialCharacters
+  );
 
-    const result = generatePassword(
-        length,
-        allowNumbers,
-        allowLetters,specialCharacters
-    );
-
-    res.json(result);
-});
-      
-app.get('/generate-password', (req, res) => {
-    const length = req.query.length;
-    const specialCharacters = req.query.specialCharacters;
-    const allowNumbers = req.query.allowNumbers === 'true';
-    const allowLetters = req.query.allowLetters === 'true';
-
-    const result = generatePassword(
-        length,
-        allowNumbers,
-        allowLetters,specialCharacters
-    );
-
-    res.json(result);
+  res.json(result);
 });
 
-app.get('/goldprice', async (req, res) => {
+app.get('/generate-password', (req: Request, res: Response) => {
+  const result = generatePassword(
+    Number(req.query.length),
+    req.query.allowNumbers === 'true',
+    req.query.allowLetters === 'true',
+    typeof req.query.specialCharacters === 'string'
+      ? req.query.specialCharacters
+      : undefined
+  );
+
+  res.json(result);
+});
+
+app.get('/goldprice', async (_req: Request, res: Response) => {
   try {
     const price = await getGoldSpot();
-    res.json({ 'Gold price': `$${price}/toz` });
+
+    res.json({
+      'Gold price': `$${price}/toz`
+    });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Failed to fetch gold price' });
+
+    res.status(500).json({
+      error: 'Failed to fetch gold price'
+    });
   }
 });
 
