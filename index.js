@@ -49,7 +49,7 @@ function generatePassword(length, allowNumbers, allowLetters, specialCharacters)
         allowLetters: allowLetters,
         allowNumbers: allowNumbers,
         length: length,
-        specialCharacters: specialCharacters
+        specialCharacters: specialCharacters ? specialCharacters : "undefined"
     };
 }
 
