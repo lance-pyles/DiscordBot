@@ -21,12 +21,12 @@ function generatePassword(length, allowNumbers, allowLetters, specialCharacters)
         charset += '0123456789';
     }
 
-    if (specialCharacters.length)
+    if (specialCharacters && specialCharacters.length > 0)
     {
         charset += specialCharacters;
     }
     
-    if (!charset.length) {
+    if (charset.length == 0) {
         return {
             success: false,
             error: 'At least one character type must be enabled.'
