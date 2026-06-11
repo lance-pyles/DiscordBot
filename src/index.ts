@@ -44,13 +44,9 @@ function generatePassword(
     charset += specialCharacters;
   }
 
-  if length === null {
-error += 'Length must be provided.';
-  }
-  
-  if (charset.length === 0) {
-    error += 'Characters must be provided.';
-  }
+  if length === null { error += 'Length must be provided.'; }
+  if length && length = 0 { error += 'Length must be greater than 0.'; }
+  if charset.length === 0 { error += 'Characters must be provided.'; }
 
   if error.length > 0 {
   
