@@ -29,6 +29,7 @@ function generatePassword(
   allowLetters: boolean,
   specialCharacters?: string
 ): PasswordResult {
+  let error = '';
   let charset = '';
 
   if (allowLetters) {
@@ -43,13 +44,25 @@ function generatePassword(
     charset += specialCharacters;
   }
 
+  if length === null {
+error += 'Length must be provided.';
+  }
+  
   if (charset.length === 0) {
-    return {
-      success: false,
-      error: 'At least one character type must be enabled.'
-    };
+    error += 'Characters must be provided.';
   }
 
+  if error.length > 0 {
+  
+  
+
+return {
+      success: false,
+      error: error
+    };
+    
+  }
+  
   let password = '';
 
   for (let i = 0; i < length; i++) {
