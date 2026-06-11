@@ -25,11 +25,11 @@ interface PasswordResult {
 
 function generatePassword(length?: number, allowNumbers?: boolean, allowLetters?: boolean, specialCharacters?: string): PasswordResult 
 {
-  let error: string|null = null;
-  let charset: string|null = null;
+  let error: string|undefined;
+  let charset: string|undefined;
 
   if (allowLetters === true) {
-    if (charset === null) { charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';} else { charset = charset + 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';}}
+    if (charset === undefined) { charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';} else { charset += 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';}}
   
 
   if (allowNumbers) {
