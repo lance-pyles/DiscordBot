@@ -42,8 +42,8 @@ function generatePassword(length?: number, allowNumbers?: boolean, allowLetters?
 
   if (length === undefined) { if (error === null) {error = "Length must be provided.";} else {error += "Length must be provided.";} }
   if (length === 0) { if (error === null) {error = "Length must be greater than 0.";} else {error += "Length must be greater than 0.";} }
-  if (charset === null) { if (error === null) {error = "Character set must be provided.";} else {error += "Character set must be provided.";} }
-  if (charset.length === 0) { if (error === null) {error = "Characters set length must be greater than 0.";} else {error += "Characters set length must be greater than 0.";} }
+  if (charset === undefined) { if (error === null) {error = "Character set must be provided.";} else {error += "Character set must be provided.";} }
+  if (charset != undefined && charset.length === 0) { if (error === null) {error = "Characters set length must be greater than 0.";} else {error += "Characters set length must be greater than 0.";} }
 
   if (error != null) { return { success: false,  error: error }; }
   
@@ -57,9 +57,9 @@ function generatePassword(length?: number, allowNumbers?: boolean, allowLetters?
   return {
     success: true,
     password,
-    combinations: charset == null || length == null ? 'undefined' : charset.length ** length,
+    combinations: charset === undefined || length === undefined ? 'undefined' : charset.length ** length,
     charset,
-    possibleCharacters: charset === null ? 'undefined' : charset.length,
+    possibleCharacters: charset === undefined ? 'undefined' : charset.length,
     allowLetters,
     allowNumbers,
     length,
