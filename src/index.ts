@@ -25,8 +25,8 @@ interface PasswordResult {
 
 function generatePassword(length?: number, allowNumbers?: boolean, allowLetters?: boolean, specialCharacters?: string): PasswordResult 
 {
-  let error?: String = null;
-  let charset?: String = null;
+  let error: string|null = null;
+  let charset: string|null = null;
 
   if (allowLetters === true) {
     if (charset === null) { charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';} else { charset += 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';}}
