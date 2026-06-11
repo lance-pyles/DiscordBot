@@ -45,7 +45,7 @@ function generatePassword(length?: number, allowNumbers?: boolean, allowLetters?
   if (charset === null) { if (error === null) {error = "Character set must be provided.";} else {error += "Character set must be provided.";} }
   if (charset.length === 0) { if (error === null) {error = "Characters set length must be greater than 0.";} else {error += "Characters set length must be greater than 0.";} }
 
-  if error != null { return { success: false,  error: error }; }
+  if (error != null) { return { success: false,  error: error }; }
   
   let password = '';
 
