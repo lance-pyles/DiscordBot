@@ -40,9 +40,10 @@ function generatePassword(length?: number, allowNumbers?: boolean, allowLetters?
     (charset === null ? "" : charset) += specialCharacters;
   }
 
-  if length === null { (error === null ? "" : error) += 'Length must be provided.'; }
-  if length != null && length = 0 { (error === null ? "" : error) += 'Length must be greater than 0.'; }
-  if charset.length === 0 { (error === null ? "" : error) += 'Characters must be provided.'; }
+  if (length === null) { if (error === null) {error = "Length must be provided.";} else {error += "Length must be provided.";} }
+  if (length === 0) { if (error === null) {error = "Length must be greater than 0.";} else {error += "Length must be greater than 0.";} }
+  if (charset === null) { if (error === null) {error = "Character set must be provided.";} else {error += "Character set must be provided.";} }
+  if (charset.length === 0) { if (error === null) {error = "Characters set length must be greater than 0.";} else {error += "Characters set length must be greater than 0."";} }
 
   if error != null { return { success: false,  error: error }; }
   
