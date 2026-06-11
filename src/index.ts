@@ -57,9 +57,9 @@ if (length != undefined && charset != undefined){
   return {
     success: true,
     password,
-    combinations: charset === undefined || length === undefined ? 'undefined' : charset.length ** length,
+    combinations: charset === undefined || length === undefined ? undefined : charset.length ** length,
     charset,
-    possibleCharacters: charset === undefined ? 'undefined' : charset.length,
+    possibleCharacters: charset === undefined ? undefined : charset.length,
     allowLetters,
     allowNumbers,
     length,
