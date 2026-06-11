@@ -53,17 +53,17 @@ function generatePassword(length?: number, allowNumbers?: boolean, allowLetters?
     const randomIndex = Math.floor(Math.random() * charset.length);
     password += charset[randomIndex];
   }
-
+  
   return {
     success: true,
     password,
-    combinations: charset.length ** length,
+    combinations: charset.length ** length ?? 'undefined',
     charset,
-    possibleCharacters: charset.length,
+    possibleCharacters: charset.length ?? 'undefined',
     allowLetters,
     allowNumbers,
     length,
-    specialCharacters: specialCharacters ?? 'undefined'
+    specialCharacters: specialCharacters ?? 'undefined' //use specialCharacters defined and not null; else 'undefined'
   };
 }
 
