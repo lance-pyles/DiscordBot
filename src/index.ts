@@ -48,11 +48,11 @@ function generatePassword(length?: number, allowNumbers?: boolean, allowLetters?
   if (error != null) { return { success: false,  error: error }; }
   
   let password = '';
-
+if (length != undefined){
   for (let i = 0; i < length; i++) {
     const randomIndex = Math.floor(Math.random() * charset.length);
     password += charset[randomIndex];
-  }
+  }}
   
   return {
     success: true,
@@ -157,7 +157,7 @@ app.post('/generate-password', (req: Request, res: Response) => {
 
 app.get('/generate-password', (req: Request, res: Response) => {
 
-  const result = generatePassword(req.query.length, req.query.allowNumbers === 'true', req.query.allowLetters === 'true', req.query.specialCharacters);
+  const result = generatePassword(req.query.length, req.query.allowNumbers, req.query.allowLetters, req.query.specialCharacters);
 
   res.json(result);
   
