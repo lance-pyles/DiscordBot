@@ -28,7 +28,7 @@ function generatePassword(length?: number, allowNumbers?: boolean, allowLetters?
   let error = null;
   let charset = null;
 
-  if (allowLetters) {
+  if (allowLetters === true) {
     if (charset === null) { charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';} else { charset += 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';}}
   
 
