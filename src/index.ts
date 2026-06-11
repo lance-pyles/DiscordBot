@@ -30,15 +30,15 @@ function generatePassword(length?: number, allowNumbers?: boolean, allowLetters?
 
   if (allowLetters) {
     if (charset === null) { charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';} else { charset += 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';}}
-  }
+  
 
   if (allowNumbers) {
    if (charset === null){ charset = '0123456789'; } else {charset += '0123456789';}}
-  }
+  
 
   if (specialCharacters && specialCharacters.length > 0) {
     if (charset === null) {charset= specialCharacters;} else {charset += specialCharacters;}}
-  }
+  
 
   if (length === null) { if (error === null) {error = "Length must be provided.";} else {error += "Length must be provided.";} }
   if (length === 0) { if (error === null) {error = "Length must be greater than 0.";} else {error += "Length must be greater than 0.";} }
