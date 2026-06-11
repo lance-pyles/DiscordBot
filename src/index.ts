@@ -23,41 +23,28 @@ interface PasswordResult {
   error?: string;
 }
 
-function generatePassword(
-  length: number,
-  allowNumbers: boolean,
-  allowLetters: boolean,
-  specialCharacters?: string
-): PasswordResult {
-  let error = '';
-  let charset = '';
+function generatePassword(length?: number, allowNumbers?: boolean, allowLetters?: boolean, specialCharacters?: string): PasswordResult 
+{
+  let error = null;
+  let charset = null;
 
   if (allowLetters) {
-    charset += 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    (charset === null ? "" : charset) += 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
   }
 
   if (allowNumbers) {
-    charset += '0123456789';
+    (charset === null ? "" : charset) += '0123456789';
   }
 
   if (specialCharacters && specialCharacters.length > 0) {
-    charset += specialCharacters;
+    (charset === null ? "" : charset) += specialCharacters;
   }
 
-  if length === null { error += 'Length must be provided.'; }
-  if length && length = 0 { error += 'Length must be greater than 0.'; }
-  if charset.length === 0 { error += 'Characters must be provided.'; }
+  if length === null { (error === null ? "" : error) += 'Length must be provided.'; }
+  if length != null && length = 0 { (error === null ? "" : error) += 'Length must be greater than 0.'; }
+  if charset.length === 0 { (error === null ? "" : error) += 'Characters must be provided.'; }
 
-  if error.length > 0 {
-  
-  
-
-return {
-      success: false,
-      error: error
-    };
-    
-  }
+  if error != null { return { success: false,  error: error }; }
   
   let password = '';
 
@@ -160,29 +147,19 @@ app.get('/ping', (_req: Request, res: Response) => {
 });
 
 app.post('/generate-password', (req: Request, res: Response) => {
-  const password_length = req.body.length == null ? null : Number(req.body.length);
-  const result = generatePassword(
-    password_length,
-    Boolean(req.body.allowNumbers),
-    Boolean(req.body.allowLetters),
-    req.body.specialCharacters
-  );
+
+  const result = generatePassword(req.body.length, req.body.allowNumbers, req.body.allowLetters, req.body.specialCharacters);
 
   res.json(result);
+  
 });
 
 app.get('/generate-password', (req: Request, res: Response) => {
 
-  const password_length = req.query.length == null ? null : Number(req.query.length);
-  
-  const result = generatePassword(
-    password_length,
-    req.query.allowNumbers === 'true',
-    req.query.allowLetters === 'true',
-    typeof req.query.specialCharacters === 'string' ? req.query.specialCharacters : undefined
-  );
+  const result = generatePassword(req.query.length, req.query.allowNumbers === 'true', req.query.allowLetters === 'true', req.query.specialCharacters);
 
   res.json(result);
+  
 });
 
 app.get('/goldprice', async (_req: Request, res: Response) => {
