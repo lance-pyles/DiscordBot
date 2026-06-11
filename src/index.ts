@@ -57,13 +57,13 @@ function generatePassword(length?: number, allowNumbers?: boolean, allowLetters?
   return {
     success: true,
     password,
-    combinations: charset.length ** length ?? 'undefined',
+    combinations: charset == null || length == null ? 'undefined' : charset.length ** length,
     charset,
-    possibleCharacters: charset.length ?? 'undefined',
+    possibleCharacters: charset === null ? 'undefined' : charset.length,
     allowLetters,
     allowNumbers,
     length,
-    specialCharacters: specialCharacters ?? 'undefined' //use specialCharacters defined and not null; else 'undefined'
+    specialCharacters: specialCharacters //?? 'undefined' //use specialCharacters defined and not null; else 'undefined'
   };
 }
 
