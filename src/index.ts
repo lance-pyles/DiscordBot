@@ -29,15 +29,15 @@ function generatePassword(length?: number, allowNumbers?: boolean, allowLetters?
   let charset = null;
 
   if (allowLetters) {
-    (charset === null ? "" : charset) += 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    if (charset === null) { charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';} else { charset += 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';}}
   }
 
   if (allowNumbers) {
-    (charset === null ? "" : charset) += '0123456789';
+   if (charset === null){ charset = '0123456789'; } else {charset += '0123456789';}}
   }
 
   if (specialCharacters && specialCharacters.length > 0) {
-    (charset === null ? "" : charset) += specialCharacters;
+    if (charset === null) {charset= specialCharacters;} else {charset += specialCharacters;}}
   }
 
   if (length === null) { if (error === null) {error = "Length must be provided.";} else {error += "Length must be provided.";} }
