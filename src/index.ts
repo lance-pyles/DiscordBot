@@ -158,9 +158,9 @@ app.post('/generate-password', (req: Request, res: Response) => {
 app.get('/generate-password', (req: Request, res: Response) => {
   let pwlen: number|undefined = req.query.length === undefined ? undefined : Number(req.query.length);
   let alnum: boolean|undefined = req.query.allowNumbers === undefined ? undefined : Boolean(req.query.allowNumbers);
-  let alnum: boolean|undefined = req.query.allowLetters === undefined ? undefined : Boolean(req.query.allowLetters);
+  let allet: boolean|undefined = req.query.allowLetters === undefined ? undefined : Boolean(req.query.allowLetters);
 
-  const result = generatePassword(pwlen, ralnum, allet, req.query.specialCharacters);
+  const result = generatePassword(pwlen, alnum, allet, req.query.specialCharacters);
 
   res.json(result);
   
