@@ -121,12 +121,17 @@ client.on('messageCreate', async (message: Message) => {
   }
 
   if (content === '!goldprice') {
+    const { channel } = message;
+    
+    // Type guard: Ensures the bot has permission and the channel can receive messages
+    if (!channel.isSendable()) return;
+
     try {
       const price = await getGoldSpot();
-      if (message.channel.isTextBased()) { await message.channel.send(`Gold price: $${price}/toz`); }
+      await channel.send(`Gold price: $${price}/toz`);
     } catch (err) {
       console.error(err);
-      if (message.channel.isTextBased()) {  await message.channel.send('Failed to fetch gold price.'); }
+      await channel.send('Failed to fetch gold price.');
     }
   }
 });
