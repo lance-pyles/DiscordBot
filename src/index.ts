@@ -164,8 +164,9 @@ app.get('/ping', (_req: Request, res: Response) => {
 });
 
 app.post('/generate-password', (req: Request, res: Response) => {
+  const password_length = req.body.length == null ? null : Number(req.body.length);
   const result = generatePassword(
-    Number(req.body.length),
+    password_length,
     Boolean(req.body.allowNumbers),
     Boolean(req.body.allowLetters),
     req.body.specialCharacters
@@ -175,13 +176,14 @@ app.post('/generate-password', (req: Request, res: Response) => {
 });
 
 app.get('/generate-password', (req: Request, res: Response) => {
+
+  const password_length = req.query.length == null ? null : Number(req.query.length);
+  
   const result = generatePassword(
-    Number(req.query.length),
+    password_length,
     req.query.allowNumbers === 'true',
     req.query.allowLetters === 'true',
-    typeof req.query.specialCharacters === 'string'
-      ? req.query.specialCharacters
-      : undefined
+    typeof req.query.specialCharacters === 'string' ? req.query.specialCharacters : undefined
   );
 
   res.json(result);
