@@ -123,12 +123,10 @@ client.on('messageCreate', async (message: Message) => {
   if (content === '!goldprice') {
     try {
       const price = await getGoldSpot();
-      if (message.channel.isTextBased()) {
-        await message.channel.send(`Gold price: $${price}/toz`);
-}
+      if (message.channel.isTextBased()) { await message.channel.send(`Gold price: $${price}/toz`); }
     } catch (err) {
       console.error(err);
-      await message.channel.send('Failed to fetch gold price.');
+      if (message.channel.isTextBased()) {  await message.channel.send('Failed to fetch gold price.'); }
     }
   }
 });
