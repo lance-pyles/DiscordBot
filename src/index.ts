@@ -21,7 +21,7 @@ interface PasswordResult {
   length?: number;
   specialCharacters?: string;
   error?: string;
-  note?:string;
+  note?: string;
 }
 
 function generatePassword(
@@ -87,13 +87,15 @@ function generatePassword(
     }
   }
 
+  if (error != null) {
+    return { success: false, error: error };
+  }
+  
   const result = splitDuplicates(charset);
   if (result.duplicates.length > 0) { if (note === null) { note = "Duplicate characters (" + result.duplicates + " found. Duplicates removed.";} else { note += "Duplicate characters (" + result.duplicates + " found. Duplicates removed." ;} }
 charset = result.cleaned;
   
-  if (error != null) {
-    return { success: false, error: error };
-  }
+
 
   let password = "";
   if (length != undefined && charset != undefined) {
@@ -126,7 +128,7 @@ interface GoldApiResponse {
   };
 }
 
-function splitDuplicates(input: string): {
+function splitDuplicates(input: string | undefined): {
   duplicates: string;
   cleaned: string;
 } {
