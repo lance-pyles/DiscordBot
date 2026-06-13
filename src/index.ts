@@ -136,8 +136,8 @@ function splitDuplicates(input: string | undefined): {
   const duplicateChars = new Set<string>();
 
   let cleaned = "";
-
-  for (const char of input) {
+  
+  for (const char of input ?? "") {
     if (seen.has(char)) {
       duplicateChars.add(char);
     } else {
@@ -148,7 +148,7 @@ function splitDuplicates(input: string | undefined): {
 
   return {
     duplicates: Array.from(duplicateChars).join(""),
-    cleaned,
+    cleaned
   };
 }
 
