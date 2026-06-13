@@ -59,40 +59,44 @@ function generatePassword(
   }
 
   if (length === undefined) {
-    if (error === null) {
+    if (error === undefined) {
       error = "Length must be provided.";
     } else {
       error += "Length must be provided.";
     }
   }
   if (length === 0) {
-    if (error === null) {
+    if (error === undefined) {
       error = "Length must be greater than 0.";
     } else {
       error += "Length must be greater than 0.";
     }
   }
   if (charset === undefined) {
-    if (error === null) {
+    if (error === undefined) {
       error = "Character set must be provided.";
     } else {
       error += "Character set must be provided.";
     }
   }
   if (charset != undefined && charset.length === 0) {
-    if (error === null) {
+    if (error === undefined) {
       error = "Characters set length must be greater than 0.";
     } else {
       error += "Characters set length must be greater than 0.";
     }
   }
 
-  if (error != null) {
+  if (error != undefined) {
     return { success: false, error: error };
   }
   
   const result = splitDuplicates(charset);
-  if (result.duplicates.length > 0) { if (note === null) { note = "Duplicate characters (" + result.duplicates + " found. Duplicates removed.";} else { note += "Duplicate characters (" + result.duplicates + " found. Duplicates removed." ;} }
+  if (result.duplicates.length > 0) 
+  { if (note === undefined) 
+        { note = "Duplicate characters (" + result.duplicates + ") found. Duplicates removed.";} 
+  else  { note += "Duplicate characters (" + result.duplicates + ") found. Duplicates removed." ;}
+  }
 charset = result.cleaned;
   
 
