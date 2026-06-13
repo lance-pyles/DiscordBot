@@ -87,7 +87,7 @@ function generatePassword(
     }
   }
 
-  const result = splitDuplicates("programming");
+  const result = splitDuplicates(charset);
   if (result.duplicates.length > 0) { if (note === null) { note = "Duplicate characters (" + result.duplicates + " found. Duplicates removed.";} else { note += "Duplicate characters (" + result.duplicates + " found. Duplicates removed." ;} }
 charset = result.cleaned;
   
