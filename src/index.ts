@@ -32,7 +32,7 @@ function generatePassword(
 ): PasswordResult {
   let error: string | undefined;
   let charset: string | undefined;
-  let note: string | undefined;
+  let note: string | null = null;
 
   if (allowLetters === true) {
     if (charset === undefined) {
@@ -93,7 +93,7 @@ function generatePassword(
   
   const result = splitDuplicates(charset);
   if (result.duplicates.length > 0) 
-  { if (note === undefined) 
+  { if (note === null) 
         { note = "Duplicate characters (" + result.duplicates + ") found. Duplicates removed.";} 
   else  { note += "Duplicate characters (" + result.duplicates + ") found. Duplicates removed." ;}
   }
@@ -122,7 +122,7 @@ charset = result.cleaned;
     allowNumbers,
     length,
     specialCharacters: specialCharacters === undefined ? "undefined" : specialCharacters,
-    note: note === undefined ? "undefined" : note
+    note: note
   };
 }
 
