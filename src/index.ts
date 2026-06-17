@@ -121,8 +121,8 @@ charset = result.cleaned;
     allowLetters,
     allowNumbers,
     length,
-    specialCharacters: specialCharacters, //?? 'undefined' //use specialCharacters defined and not null; else 'undefined'
-    note: note
+    specialCharacters: specialCharacters === undefined ? "undefined" : specialCharacters,
+    note: note === undefined ? "undefined" : note
   };
 }
 
