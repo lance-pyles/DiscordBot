@@ -21,7 +21,7 @@ interface PasswordResult {
   length?: number;
   specialCharacters?: string;
   error?: string;
-  note?: string;
+  note?: string | null;
 }
 
 function generatePassword(
