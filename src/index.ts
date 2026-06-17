@@ -14,6 +14,7 @@ interface PasswordResult {
   success: boolean;
   password: string | null;
   combinations: number | null;
+  combinationsFormatted: number | null;
   charset: string | null;
   possibleCharacters: number | null;
   allowLetters: boolean | null;
@@ -66,6 +67,7 @@ function generatePassword(
       success: false,
       password: null,
       combinations: null,
+      combinationsFormatted: null,
       charset: null,
       possibleCharacters: null,
       allowLetters: allowLetters ?? null,
@@ -94,6 +96,7 @@ function generatePassword(
       success: false,
       password: null,
       combinations: null,
+      combinationsFormatted: null,
       charset: null,
       possibleCharacters: null,
       allowLetters: allowLetters ?? null,
@@ -125,6 +128,7 @@ function generatePassword(
     success: true,
     password,
     combinations: Math.pow(charset.length, length),
+    combinationsFormatted: formatCombinations(Math.pow(charset.length, length)),
     charset,
     possibleCharacters: charset.length,
     allowLetters: allowLetters ?? null,
@@ -135,7 +139,17 @@ function generatePassword(
     note,
   };
 }
+function formatCombinations(value: number | null): string | null {
+  if (value === null) return null;
 
+  // 1 billion or more → scientific notation
+  if (value >= 1_000_000_000) {
+    return value.toExponential(2); // e.g. 1.23e+9
+  }
+
+  // otherwise → comma formatting
+  return value.toLocaleString("en-US");
+}
 /* -------------------- ROUTES -------------------- */
 
 app.post("/generate-password", (req: Request, res: Response) => {
