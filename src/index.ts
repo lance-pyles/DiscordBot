@@ -14,7 +14,7 @@ interface PasswordResult {
   success: boolean;
   password: string | null;
   combinations: number | null;
-  combinationsFormatted: number | null;
+  combinationsFormatted: string | null;
   charset: string | null;
   possibleCharacters: number | null;
   allowLetters: boolean | null;
