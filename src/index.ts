@@ -133,14 +133,14 @@ interface GoldApiResponse {
 }
 
 function splitDuplicates(input: string | undefined): {
-  duplicates: string;
+  duplicates: string[];
   cleaned: string;
 } {
   const seen = new Set<string>();
   const duplicateChars = new Set<string>();
 
   let cleaned = "";
-  
+
   for (const char of input ?? "") {
     if (seen.has(char)) {
       duplicateChars.add(char);
@@ -151,7 +151,7 @@ function splitDuplicates(input: string | undefined): {
   }
 
   return {
-    duplicates: Array.from(duplicateChars).join(""),
+    duplicates: Array.from(duplicateChars),
     cleaned
   };
 }
